@@ -1,0 +1,83 @@
+
+.card-body .markdown  {
+  color: #444;
+  text-align: left;
+}
+
+.card-body .markdown p {
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.card-body .markdown small {
+  font-size: 0.75rem;
+}
+
+/* https://github.com/mrmrs/fluidity */
+
+.card-body .markdown img,
+.card-body .markdown canvas,
+.card-body .markdown iframe,
+.card-body .markdown video,
+.card-body .markdown svg,
+.card-body .markdown select,
+.card-body .markdown textarea {
+  max-width: 100%;
+}
+
+.card-body .markdown img {
+  max-height: 100px;
+}
+
+.card-body .markdown a, 
+.card-body .markdown a:visited {
+  color: #3498db;
+}
+
+.card-body .markdown a:hover,
+.card-body .markdown a:focus,
+.card-body .markdown a:active {
+  color: #2980b9;
+}
+
+.card-body .markdown pre {
+  background-color: #fafafa;
+  padding: 1rem;
+  text-align: left;
+  border: 1px dotted #ddd;
+}
+
+.card-body .markdown blockquote {
+  margin: 0;
+  margin-bottom: 1rem;
+  border-left: 5px solid #97b8d6;
+  background-color: #edf2f5;
+  font-style: italic;
+  padding: 1rem 1rem 0.1rem 1rem;
+  text-align: left;
+}
+
+.card-body .markdown blockquote p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.card-body .markdown table, 
+.card-body .markdown table th, 
+.card-body .markdown table td {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  margin-bottom: 1rem;
+}
+
+.card-body .markdown ul, 
+.card-body .markdown ol, 
+.card-body .markdown li {
+  text-align: left;
+}
+
+.card-body .markdown strong {
+  font-weight: 600;
+}

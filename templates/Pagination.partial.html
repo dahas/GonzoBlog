@@ -1,0 +1,11 @@
+<nav aria-label="Page navigation example" class="mt-1 ms-auto">
+    <ul class="pagination justify-content-end">
+        <li class="page-item {$prevDisabled ? 'disabled' : ''}">
+            <a class="page-link" href="/Blog/{$prev}" tabindex="-1" aria-disabled="{$prevDisabled}"><i class="bi bi-caret-left-fill"></i></a>
+        </li>
+        <li n:for="$i = 1; $i <= $range; $i++" class="page-item {$i == $curr ? 'active' : ''}"><a class="page-link" href="/Blog/{$i}">{$i}</a></li>
+        <li class="page-item {$nextDisabled ? 'disabled' : ''}">
+            <a class="page-link" href="/Blog/{$next}" aria-disabled="{$nextDisabled}"><i class="bi bi-caret-right-fill"></i></a>
+        </li>
+    </ul>
+</nav>

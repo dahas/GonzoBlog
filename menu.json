@@ -1,0 +1,44 @@
+[
+    {
+        "path": "/",
+        "title": "Home",
+        "enabled": true
+    },
+    {
+        "path": "/Blog",
+        "title": "Blog",
+        "enabled": true
+    },
+    {
+        "path": "/Test",
+        "title": "Test",
+        "enabled": true
+    },
+    {
+        "title": "Examples",
+        "enabled": true,
+        "items": [
+            {
+                "path": "/ExampleJson",
+                "title": "Json Response",
+                "enabled": true
+            },
+            {
+                "separator": true
+            },
+            {
+                "header": "Section Header"
+            },
+            {
+                "path": "/Second",
+                "title": "Disabled Item",
+                "enabled": false
+            },
+            {
+                "path": "/Qwert",
+                "title": "Error 404",
+                "enabled": true
+            }
+        ]
+    }
+]

@@ -1,0 +1,195 @@
+{if isset($isReply)}
+<div class="clearfix"></div>
+<div class="collapse show" id="collapseExample">
+    <h2 id="comments" class="mt-4">{$form_header}</h2>
+    <form method="post" action="{$route}/Reply/create/{$commentId}">
+        <input type="hidden" name="page" value="{$page}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div n:if="isset($isLoggedIn) && !$isLoggedIn" class="col-12 ps-3 pt-2">
+                        Please log in to leave a comment.
+                    </div>
+                    <div n:if="isset($isLoggedIn) && $isLoggedIn" class="col-12 ps-4 pt-2">
+                        Signed in as: <b>{$user['name']}</b>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <textarea id="simple-mde-editor" name="comment" class="form-control text-bg-light" rows="4"
+                            placeholder="Your comment here ...">{$text ?? ''}</textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{$route}#comments" type="button" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{elseif isset($isReplyUpdate)}
+<div class="clearfix"></div>
+<div class="collapse show" id="collapseExample">
+    <h2 id="comments" class="mt-4">{$form_header}</h2>
+    <form method="post" action="{$route}/Reply/update/{$commentId}/{$replyId}">
+        <input type="hidden" name="page" value="{$page}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div n:if="isset($isLoggedIn) && !$isLoggedIn" class="col-12 ps-3 pt-2">
+                        Please log in to leave a comment.
+                    </div>
+                    <div n:if="isset($isLoggedIn) && $isLoggedIn" class="col-12 ps-4 pt-2">
+                        Signed in as: <b>{$user['name']}</b>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <textarea id="simple-mde-editor" name="comment" class="form-control text-bg-light" rows="4"
+                            placeholder="Your comment here ...">{$text ?? ''}</textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{$route}#comments" type="button" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{elseif isset($isUpdate)}
+<div class="clearfix"></div>
+<div class="collapse show" id="collapseExample">
+    <h2 id="comments" class="mt-4">{$form_header}</h2>
+    <form method="post" action="{$route}/Comments/update/{$commentId}">
+        <input type="hidden" name="page" value="{$page}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div n:if="isset($isLoggedIn) && !$isLoggedIn" class="col-12 ps-3 pt-2">
+                        Please log in to leave a comment.
+                    </div>
+                    <div n:if="isset($isLoggedIn) && $isLoggedIn" class="col-12 ps-4 pt-2">
+                        Signed in as: <b>{$user['name']}</b>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <textarea id="simple-mde-editor" name="comment" class="form-control text-bg-light" rows="4"
+                            placeholder="Your comment here ...">{$text ?? ''}</textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{$route}#comments" type="button" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{else}
+<div class="clearfix"></div>
+<p id="add" class="mt-4">
+    <a data-bs-toggle="collapse" href="#collapseExample" role="button"
+        aria-expanded="{$expanded}" aria-controls="collapseExample">
+        <i class="bi bi-chat-left-text"></i> Leave a comment
+    </a>
+</p>
+<div class="collapse {$expanded ? 'show' : ''}" id="collapseExample">
+    <form method="post" action="{$route}/Comments/create">
+        <input type="hidden" name="page" value="{$page}">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div n:if="isset($isLoggedIn) && !$isLoggedIn" class="col-12 ps-3 pt-2">
+                        Please <a href="/Authenticate">sign in</a> to leave a comment.
+                    </div>
+                    <div n:if="isset($isLoggedIn) && $isLoggedIn" class="col-12 ps-4 pt-2">
+                        Signed in as: <b>{$user['name']}</b>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <textarea id="simple-mde-editor" name="comment" class="form-control text-bg-light" rows="4"
+                            placeholder="Your comment here ...">{$text ?? ''}</textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                    aria-expanded="{$expanded}" aria-controls="collapseExample">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{/if}
+
+<h2 id="comments" class="mt-4" n:if="$comments">Comments</h2>
+
+<div id="C{$comment->id()}" class="card text-bg-light mb-3" n:foreach="$comments as $comment"
+    n:if="!$comment->getHidden() || ($isLoggedIn && $user['email']==$comment->getEmail()) || $isAdmin">
+    <div class="card-header d-flex">
+        <small>#{$comment->id()} | <b>{$comment->getName()}</b> wrote at {$comment->getCreated()}</small>
+        <small n:if="isset($user['email']) && $user['email']==$comment->getEmail() || $isAdmin" class="ms-auto">
+            <a href="{$route}/Comments/edit/{$comment->id()}"
+                style="margin-right: 0.25rem"><i class="bi bi-pencil-fill"></i></a>
+            <a href="{$route}/Comments/hide/{$comment->id()}"
+                style="margin-right: 0.25rem"><i
+                    class="bi {$comment->getHidden() ? 'text-warning bi-eye-fill' : 'bi-eye-slash-fill'}"></i></a>
+            <a href="{$route}/Comments/delete/{$comment->id()}"><i
+                    class="bi bi-trash3-fill"></i></a>
+        </small>
+    </div>
+    <div class="card-body">
+        <div class="markdown">
+            {$comment->getComment()|noescape|markdown}
+        </div>
+
+        <div id="R{$reply->id()}" class="card mb-3" n:foreach="$comment->getReplies() as $reply"
+            n:if="!$reply->getHidden() || ($isLoggedIn && $user['email']==$reply->getEmail()) || $isAdmin">
+            <div class="card-header d-flex">
+                <small>#{$reply->id()} | <b>{$reply->getName()}</b> replied at {$reply->getCreated()}</small>
+                <small n:if="isset($user['email']) && $user['email']==$reply->getEmail() || $isAdmin" class="ms-auto">
+                    <a href="{$route}/Reply/edit/{$comment->id()}/{$reply->id()}"
+                        style="margin-right: 0.25rem"><i class="bi bi-pencil-fill"></i></a>
+                    <a href="{$route}/Reply/hide/{$comment->id()}/{$reply->id()}"
+                        style="margin-right: 0.25rem"><i
+                            class="bi {$reply->getHidden() ? 'text-warning bi-eye-fill' : 'bi-eye-slash-fill'}"></i></a>
+                    <a href="{$route}/Reply/delete/{$comment->id()}/{$reply->id()}"><i
+                            class="bi bi-trash3-fill"></i></a>
+                </small>
+            </div>
+            <div class="card-body">
+                <div class="markdown">
+                    {$reply->getReply()|noescape|markdown}
+                </div>
+            </div>
+        </div>
+
+        <a href="{$route}/Reply/{$comment->id()}#add">
+            <i class="bi bi-chat-left-text"></i> Reply</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script>
+    var simplemde = new SimpleMDE({
+        element: document.getElementById("simple-mde-editor"),
+        autofocus: true,
+        spellChecker: false,
+        forceSync: true,
+        toolbar: ["heading", "|", "bold", "italic", "|", "code", "quote", "table", "horizontal-rule", "|", "unordered-list", "ordered-list", "|", "preview"],
+        insertTexts: {
+            horizontalRule: ["", "\n\n-----\n\n"],
+            image: ["![](http://", ")"],
+            link: ["[", "](http://)"],
+            table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+        },
+        lineWrapping: true,
+        renderingConfig: {
+            singleLineBreaks: false,
+            codeSyntaxHighlighting: true,
+            image: false,
+            link: false
+        },
+        parsingConfig: {
+            image: false,
+            link: false
+        },
+        styleSelectedText: false,
+    });
+</script>

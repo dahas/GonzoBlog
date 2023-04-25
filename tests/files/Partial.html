@@ -1,0 +1,11 @@
+{layout Layout.html}
+
+{block partial}
+<div class="container">
+    <h1>{$header}</h1>
+    <p>{$var}</p>
+    <ul>
+        <li n:foreach="$list as $key => $val"><a href="{$key}">{$val}</a></li>
+    </ul>
+</div>
+{/block}

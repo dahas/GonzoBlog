@@ -1,0 +1,14 @@
+/.idea
+/.phpunit.result.cache
+/vendor/
+test.php
+.env
+.cache
+.latte/cache/*
+/tests/cache
+public/logout.php
+public/login.php
+public/blog_files/*.png
+public/blog_files/*.jpg
+public/blog_files/*.jpeg
+public/blog_files/*.gif

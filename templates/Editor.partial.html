@@ -1,0 +1,147 @@
+{layout 'App.layout.html'}
+
+{block content}
+<div class="container mt-3">
+    <form action="{$articleId ? '/Editor/update' : '/Editor/create'}" method="post">
+        <input type="hidden" name="articleId" value="{$articleId}">
+        <input type="hidden" name="referer" value="{$referer}">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="exampleFormControlInput1" class="form-label">Title (Max. 64 Zeichen)</label>
+                <input type="text" name="title" class="form-control" id="exampleFormControlInput1" maxlength="64"
+                    value="{$articleTitle}" required>
+            </div>
+            <div class="col-2">
+                <label for="exampleFormControlInput1" class="form-label">Page</label>
+                <select name="page" class="form-select" aria-label="Default select example" required>
+                    <option value="">Select Page</option>
+                    <option value="/Blog" {$articlePage=='/Blog' ? 'selected' : '' }>Blog</option>
+                    <option value="/Test" {$articlePage=='/Test' ? 'selected' : '' }>Test</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <label for="exampleFormControlInput1" class="form-label">Visibility</label>
+                <select name="hidden" class="form-select" aria-label="Default select example" required>
+                    <option value="">Select Visibility</option>
+                    <option value="1" {$articleHidden ? 'selected' : '' }>Hidden</option>
+                    <option value="0" {!$articleHidden ? 'selected' : '' }>Visible</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Description (Max. 255 Zeichen)</label>
+            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="255"
+                required>{$articleDescription}</textarea>
+        </div>
+        <label for="exampleFormControlTextarea1" class="form-label">Article</label>
+        <div class="mb-3">
+            <textarea id="tiny-mce" name="articleText">{$articleText}</textarea>
+            <script
+                src="https://cdn.tiny.cloud/1/{$tinymceApiKey}/tinymce/6/tinymce.min.js"
+                referrerpolicy="origin"></script>
+            <script>
+
+                const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
+
+                tinymce.init({
+                    selector: 'textarea#tiny-mce',
+                    // skin: 'bootstrap',
+                    height: 500,
+                    content_css: '/assets/css/tinymce.css',
+                    menubar: true,
+                    plugins: 'table advlist autolink lists link image charmap preview ' +
+                        'visualblocks code fullscreen ' +
+                        'insertdatetime media table code help wordcount ',
+                    toolbar: 'undo redo | styles | sizeselect | ' +
+                        'bold italic backcolor | alignleft aligncenter ' +
+                        'alignright alignjustify | image table | bullist numlist outdent indent | ' +
+                        'removeformat',
+                    /* enable title field in the Image dialog*/
+                    image_title: true,
+                    /* enable automatic uploads of images represented by blob or data URIs*/
+                    automatic_uploads: true,
+                    images_upload_url: '/Editor/upload',
+                    relative_urls: false,
+                    remove_script_host: false,
+                    convert_urls: true,
+                    file_picker_types: 'image',
+                    images_file_types: 'jpg,gif,png',
+                    file_picker_callback: function (cb, value, meta) {
+                        var input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', 'image/jpeg, image/png, image/gif, image/webp');
+                        input.onchange = function () {
+                            var file = this.files[0];
+
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                var id = 'blobid' + (new Date()).getTime();
+                                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                var base64 = reader.result.split(',')[1];
+                                var blobInfo = blobCache.create(id, file, base64);
+                                blobCache.add(blobInfo);
+
+                                /* call the callback and populate the Title field with the file name */
+                                cb(blobInfo.blobUri(), { title: file.name });
+                            };
+                            reader.readAsDataURL(file);
+                        };
+
+                        input.click();
+                    },
+                    // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                    style_formats: [{
+                        title: 'Headings', items: [
+                            { title: 'Heading 1', format: 'h1' },
+                            { title: 'Heading 2', format: 'h2' },
+                            { title: 'Heading 3', format: 'h3' },
+                            { title: 'Heading 4', format: 'h4' },
+                            { title: 'Heading 5', format: 'h5' },
+                            { title: 'Heading 6', format: 'h6' }
+                        ]
+                    },
+                    {
+                        title: 'Text', items: [
+                            { title: 'Bold', format: 'bold' },
+                            { title: 'Italic', format: 'italic' },
+                            { title: 'Underline', format: 'underline' },
+                            { title: 'Strikethrough', format: 'strikethrough' },
+                            { title: 'Superscript', format: 'superscript' },
+                            { title: 'Subscript', format: 'subscript' },
+                            { title: 'Code', format: 'code' }
+                        ]
+                    },
+                    {
+                        title: 'Blocks', items: [
+                            { title: 'Paragraph', format: 'p' },
+                            { title: 'Blockquote', format: 'blockquote' },
+                            { title: 'Div', format: 'div' },
+                            { title: 'Pre', format: 'pre' }
+                        ]
+                    },
+                    {
+                        title: 'Image', items: [
+                            {
+                                title: 'Align Left', selector: 'img', styles: {
+                                    'float': 'left',
+                                    'margin': '0 20px 20px 0'
+                                }
+                            },
+                            {
+                                title: 'Align Right', selector: 'img', styles: {
+                                    'float': 'right',
+                                    'margin': '0 0 20px 20px'
+                                }
+                            }
+                        ]
+                    }]
+                });
+
+            </script>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Article</button>
+        <a href="{$referer}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{/block}

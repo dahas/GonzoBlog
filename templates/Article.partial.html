@@ -1,0 +1,47 @@
+{layout 'App.layout.html'}
+
+{block content}
+<div n:if="$isAdmin || !$article->getHidden()" class="container mt-3">
+    <div class="row">
+        <div class="col me-md-4  mt-2">
+            <div class="d-flex w-100 justify-content-between">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                    aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/Blog">Blog</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{$article->getTitle()|noescape}</li>
+                    </ol>
+                </nav>
+                <small n:if="$isAdmin" class="ms-auto">
+                    <a href="/Editor/edit/{$article->id()}" style="margin-right: 0.25rem"><i
+                            class="bi bi-pencil-fill"></i></a>
+                    <a href="/Editor/hide/{$article->id()}" style="margin-right: 0.25rem"><i
+                            class="bi {$article->getHidden() ? 'text-warning bi-eye-fill' : 'bi-eye-slash-fill'}"></i></a>
+                    <a href="/Editor/delete/{$article->id()}"><i class="bi bi-trash3-fill"></i></a>
+                </small>
+            </div>
+            <hr>
+            <small>
+                {$article->getCreated()|noescape}
+            </small>
+            <div class="mt-3">{$article->getArticle()|noescape}</div>
+
+            {include 'Comments.partial.html'}
+        </div>
+        <div class="col-md-3 col-12">
+            <h3>List of Articles</h3>
+
+            <div class="list-group overflow-auto" n:inner-foreach="$articles as $item">
+                <a n:if="$isAdmin || !$item->getHidden()" href="{$item->getPage()}/Article/{$item->id()}"
+                    class="list-group-item list-group-item-action {$currentArticle == $item->id() ? 'active' : ''}"
+                    aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small>{$item->getCreated()}</small>
+                    </div>
+                    <p class="mb-1">{$item->getTitle()}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

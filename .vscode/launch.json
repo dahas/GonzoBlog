@@ -1,0 +1,29 @@
+{
+    // DEBUG CONFIGURATION FILE
+    "version": "0.2.0",
+    "configurations": [
+
+        //// Debug currently open PHP file
+        {
+            "name": "File",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "args": [],
+            "externalConsole": false,
+            "port": 9003
+        },
+
+        //// Debug PHP App
+        {
+            "name": "App",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/debug.php",
+            "args": [],
+            "externalConsole": false,
+            "port": 9003
+        }
+
+    ]
+}
