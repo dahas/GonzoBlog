@@ -1,6 +1,6 @@
 {
     "name": "dahas/gonzo",
-    "description": "A PHP framework",
+    "description": "A Static Blog",
     "type": "project",
     "license": "MIT",
     "authors": [

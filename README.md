@@ -4,6 +4,7 @@
 
 - *Gonzo Blog* is a mixture of static pages and dynamic content. 
 - Blog articles can be created and edited directly in the browser without leaving the page.
+- Comments can be written with Markdown.
 - *Gonzo Blog* requires some good knowledge in web development.
 - *Gonzo Blog* is Open Source.
 
