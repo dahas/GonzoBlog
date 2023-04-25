@@ -11,7 +11,6 @@ class CommentsController extends AppController {
     #[Inject(CommentsService::class)]
     protected $comments;
 
-    protected string $page;
     protected string $route;
     protected string $templateFile;
 
@@ -19,12 +18,6 @@ class CommentsController extends AppController {
         protected Request $request,
         protected Response $response
     ) {
-        if (!isset($this->page) || !$this->page) {
-            throw new \Gonzo\Sources\exceptions\InvalidConfigException(
-                "Protected parameter '\$page' missing! Must be set in child class to overwrite parent setting."
-            );
-        }
-
         if (!isset($this->route) || !$this->route) {
             throw new \Gonzo\Sources\exceptions\InvalidConfigException(
                 "Protected parameter '\$route' missing! Must be set in child class to overwrite parent setting."
@@ -44,7 +37,7 @@ class CommentsController extends AppController {
         ]);
     }
 
-    public function renderComments(int $articleId = 0): void
+    public function renderComments(): void
     {
         $text = '';
         if ($this->session->issetTemp()) {
@@ -54,7 +47,7 @@ class CommentsController extends AppController {
         }
 
         $this->template->assign([
-            "comments" => $this->comments->readAll($this->page, $articleId),
+            "comments" => $this->comments->readAll($this->route),
             'route' => $this->route,
             "expanded" => !empty($text) || $this->data['expanded'],
             "text" => $text
@@ -179,7 +172,7 @@ class CommentsController extends AppController {
 
     public function createComment(): void
     {
-        $id = $this->comments->create($this->page, $this->data);
+        $id = $this->comments->create($this->route, $this->data);
         if ($id < 0) { // Not logged in!
             $this->session->setTempData($this->route, $this->data);
             $this->auth->login();

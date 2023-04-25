@@ -18,17 +18,6 @@ class CommentEntity extends Entity implements IMappableEntity {
         return $this->orm()->getColumn('id');
     }
 
-    public function getArticleId(): int
-    {
-        return $this->orm()->getColumn('article_id');
-    }
-
-    public function setArticleId(int $article_id): self
-    {
-        $this->orm()->setColumn('article_id', $article_id);
-        return $this;
-    }
-
     public function getComment(): string
     {
         return $this->orm()->getColumn('comment');
@@ -62,14 +51,14 @@ class CommentEntity extends Entity implements IMappableEntity {
         return $this;
     }
 
-    public function getPage(): string
+    public function getRoute(): string
     {
-        return $this->orm()->getColumn('page');
+        return $this->orm()->getColumn('route');
     }
 
-    public function setPage(string $page): self
+    public function setRoute(string $route): self
     {
-        $this->orm()->setColumn('page', $page);
+        $this->orm()->setColumn('route', $route);
         return $this;
     }
 

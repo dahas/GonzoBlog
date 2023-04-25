@@ -11,8 +11,7 @@ class ArticleController extends CommentsController {
     #[Inject(ArticlesService::class, ['hello' => "world"])]
     protected $articles;
 
-    protected string $page = 'Blog';
-    protected string $route = '/Blog/Article';
+    protected string $route = '/Blog/Article/%d';
     protected string $templateFile = 'Article.partial.html';
 
     public function __construct(protected Request $request, protected Response $response)
@@ -27,7 +26,7 @@ class ArticleController extends CommentsController {
             $article = $articles[0];
         }
 
-        $this->route = "{$this->route}/{$this->data['articleId']}";
+        $this->route = sprintf($this->route, $this->data['articleId']);
 
         if ($article) {
             $this->template->assign([
@@ -55,7 +54,7 @@ class ArticleController extends CommentsController {
     #[Route(path: '/Blog/Article/{articleId}', method: 'get')]
     public function read(): void
     {
-        parent::renderComments((int) $this->data['articleId']);
+        parent::renderComments();
     }
 
     #[Route(path: '/Blog/Article/{articleId}/Comments/create', method: 'post')]

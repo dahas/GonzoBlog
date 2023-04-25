@@ -7,7 +7,6 @@ use Gonzo\Sources\{Request, Response};
 
 class TestController extends CommentsController {
 
-    protected string $page = 'Test';
     protected string $route = '/Test';
     protected string $templateFile = 'Test.partial.html';
 

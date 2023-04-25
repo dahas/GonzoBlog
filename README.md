@@ -213,7 +213,7 @@ In addition to installing libraries with Composer, you can create your own Servi
 Below is a template of a Service class. The constructor with an array of options is mandatory, although using options is optional.
 
 ````php
-// lib/YourService.php
+// services/YourService.php
 
 <?php declare(strict_types=1);
 
@@ -266,7 +266,7 @@ class AnyController extends ControllerBase {
 ````
 It is also possible to use Services in a Service. Therefore the Service must inherit from the ServiceBase. Like so:
 ````php
-// lib/YourService.php
+// services/YourService.php
 
 <?php declare(strict_types=1);
 
@@ -293,6 +293,7 @@ class YourService extends ServiceBase {
 There are some Services already available which you can use and/or modify to your needs.
 
 ## ArticlesService
+
 ### *Dependencies*: 
 * Services: `AuthenticationService`, `DbalService`, `PurifyService`
 * Templates: `Article.partial.html`
