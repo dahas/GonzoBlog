@@ -107,7 +107,7 @@ class YourController extends ControllerBase {
         $this->data = $this->request->getData();
     }
 
-    #[Route(path: '/YourController/{name}', method: 'get')]
+    #[Route(path: '/YourPath/{name}', method: 'get')]
     public function main(): void
     {
         $this->response->write("Hello " . $this->data['name']);
@@ -117,7 +117,7 @@ class YourController extends ControllerBase {
 }
 ````
 Check it out in the web browser (provide your name):  
-http://localhost:2400/YourController/<YourName\>
+http://localhost:2400/YourPath/<YourName\>
 
 ### Render HTML
 
@@ -171,7 +171,7 @@ class YourController extends ControllerBase {
         $this->data = $this->request->getData();
     }
 
-    #[Route(path: '/YourController/{name}', method: 'get')]
+    #[Route(path: '/YourPath/{name}', method: 'get')]
     public function main(): void
     {
         $this->injectServices();
@@ -179,7 +179,7 @@ class YourController extends ControllerBase {
         $this->template->assign([
             'title' => 'Your Controller',
             'header' => 'Gonzo is cool!',
-            'message' => 'But ' . $this->data['name'] . ' is even cooler :p'
+            'message' => 'But ' . $this->data['name'] . ' is way cooler :p'
         ]);
         $this->template->parse('Your.layout.html');
         $this->template->render($this->request, $this->response);
@@ -189,7 +189,7 @@ class YourController extends ControllerBase {
 }
 ````
 Check it out again:  
-http://localhost:2400/YourController/<YourName\>
+http://localhost:2400/YourPath/<YourName\>
 
 ## Extend the Menu
 
@@ -198,15 +198,16 @@ Finally, you may want your new page to appear in the navigation bar. Therefore o
 ````
 // ...
 {
-    "path": "/YourController",
-    "title": "Your New Page",
+    "path": "/YourPath/<YourName\>",
+    "controller": "YourController",
+    "title": "Welcome Message",
     "enabled": true
 },
 // ...
 ````
 
 ## Extend Gonzo with Services
-In addition to installing libraries with Composer, you can create your own Services. To do this, you simply create a Class in the `lib` directory and inject it via Attributes in the Classes where you need the Service. 
+In addition to installing libraries with Composer, you can create your own Services. To do this, you simply create a Class in the `services` directory and inject it via Attributes in the Classes where you need the Service. 
 
 Below is a template of a Service class. The constructor with an array of options is mandatory, although using options is optional.
 
@@ -235,8 +236,7 @@ Here is how you inject Services in another Class. Note how the constructor trigg
 namespace Gonzo\Controller;
 
 use Gonzo\Sources\ControllerBase;
-use Gonzo\Service\YourService;
-use Gonzo\Service\AnotherService;
+use Gonzo\Service\{YourService, AnotherService};
 
 class AnyController extends ControllerBase {
 
@@ -272,14 +272,12 @@ It is also possible to use Services in a Service. Therefore the Service must inh
 namespace Gonzo\Service;
 
 use Gonzo\Sources\ServiceBase;
+use Gonzo\Service\AnyService;
 
 class YourService extends ServiceBase {
 
     #[Inject(AnyService::class)]
     protected $anyService;
-
-    #[Inject(AnotherService::class)]
-    protected $anotherService;
 
     public function __construct(private array|null $options = [])
     {

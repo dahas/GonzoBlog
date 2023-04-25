@@ -7,6 +7,11 @@
         {$pagination|noescape}
     </div>
     <div class="row row-cols-1 row-cols-lg-{$cols} g-4 mb-4">
+        {if count($articles) == 0}
+        <div class="col">
+            <p>No Articles Found. <span n:if="$isAdmin"><a href="/Editor?page=/Blog">Click here</a> to create your first article.</span></p>
+        </div>
+        {else}
         <div class="col" n:foreach="$articles as $item">
             <div class="card h-100">
                 <a href="/Blog/Article/{$item->id()}" class="blog-img"
@@ -29,6 +34,7 @@
                 </div>
             </div>
         </div>
+        {/if}
     </div>
     {$pagination|noescape}
 </div>

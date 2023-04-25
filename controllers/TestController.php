@@ -16,7 +16,7 @@ class TestController extends CommentsController {
         parent::__construct($request, $response);
 
         $this->template->assign([
-            'title' => "My Test Suite"
+            'title' => "A Page With Comments"
         ]);
     }
 

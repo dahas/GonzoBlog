@@ -1,15 +1,23 @@
 {layout 'App.layout.html'}
 
 {block content}
-<svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid" width="100%" height="250"
-    xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
-    preserveAspectRatio="xMidYMid slice" focusable="false">
-    <title>Placeholder</title>
-    <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Responsive
-        image</text>
-</svg>
+<img src="assets/imgs/home.jpg" alt="Gonzo Blog">
 <div class="container-sm mt-3">
-    <h1>{$header}</h1>
-    <p>{$subtitle}</p>
+    <h1>Your Homepage</h1>
+    <p>This is your static homepage. See the description below to find and replace or modify its resources.</p>
+    <ul>
+        <li>Location of this Controller: <code>'controllers/IndexController'</code></li>
+        <li>Location of this Template: <code>'templates/Index.partial.html'</code></li>
+        <li>Location of the Image: <code>'public/assets/imgs/home.jpg'</code></li>
+    </ul>
+    <p>Note, that the IndexController inherits from the 'AppController'.</p>
+    <ul>
+        <li>Location of the App controller: <code>'controllers/AppController'</code></li>
+        <li>Location of the App template: <code>'templates/App.layout.html'</code></li>
+    </ul>
+    <p>You can also extend or modify the Menu.</p>
+    <ul>
+        <li>Location of the Menu config: <code>'menu.json'</code></li>
+    </ul>
 </div>
 {/block}

@@ -2,10 +2,15 @@
 
 {block content}
 <div class="container mt-3">
-    <h1>TEST TEST</h1>
-    <p>Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    <h1>A Page with Comments</h1>
+    <p>In addition to the blog articles, you can also integrate the comment function on static pages. 
+        To do this, the controller of a page must derive from the 'CommentsController' and override its three properties 
+        <code>$page</code>, <code>$route</code>, and <code>$templateFile</code>.</p>
+    <p>In the template of the page you have to include <code>Comments.partial.html</code>.</p>
+    <ul>
+        <li>Location of this Controller: <code>'controllers/TestController'</code></li>
+        <li>Location of this Template: <code>'templates/Test.partial.html'</code></li>
+    </ul>
     {include 'Comments.partial.html'}
 </div>
 {/block}

@@ -1,17 +1,14 @@
 [
     {
         "path": "/",
+        "controller": "IndexController",
         "title": "Home",
         "enabled": true
     },
     {
         "path": "/Blog",
+        "controller": "BlogController",
         "title": "Blog",
-        "enabled": true
-    },
-    {
-        "path": "/Test",
-        "title": "Test",
         "enabled": true
     },
     {
@@ -19,8 +16,9 @@
         "enabled": true,
         "items": [
             {
-                "path": "/ExampleJson",
-                "title": "Json Response",
+                "path": "/Test",
+                "controller": "TestController",
+                "title": "A Page With Comments",
                 "enabled": true
             },
             {
@@ -30,13 +28,15 @@
                 "header": "Section Header"
             },
             {
-                "path": "/Second",
-                "title": "Disabled Item",
+                "path": "/Test",
+                "controller": "TestController",
+                "title": "Disabled Entry",
                 "enabled": false
             },
             {
-                "path": "/Qwert",
-                "title": "Error 404",
+                "path": "/Teeest",
+                "controller": "TestController",
+                "title": "Wrong Entry",
                 "enabled": true
             }
         ]
