@@ -30,22 +30,20 @@ class ArticlesService extends ServiceBase {
         $this->orm = $this->dbal->getEntityManager();
     }
 
-    public function readAll(string $page, int $offset = 0, int $limit = 0, int &$count = 0): array
+    public function readAll(int $offset = 0, int $limit = 0, int &$count = 0): array
     {
         // Get totalcount for Pagination:
         $db = $this->dbal->getDatabase();
         $cQuery = $db->from('blog_articles');
-        $cQuery->where('page')->is($page);
         if (!$this->auth->isLoggedIn() || ($this->auth->isLoggedIn() && !$this->auth->isAdmin())) {
-            $cQuery->andWhere('hidden')->is(0);
+            $cQuery->where('hidden')->is(0);
         }
         $count = $cQuery->count();
 
         // Get Blog articles:
         $query = $this->orm->query(ArticleEntity::class);
-        $query->where('page')->is($page);
         if (!$this->auth->isLoggedIn() || ($this->auth->isLoggedIn() && !$this->auth->isAdmin())) {
-            $query->andWhere('hidden')->is(0);
+            $query->where('hidden')->is(0);
         }
         $query->orderBy('created', 'desc');
         if($offset > 0 && $limit > 0) {
@@ -71,7 +69,7 @@ class ArticlesService extends ServiceBase {
                     ->setDescription($data['description'] ?? "")
                     ->setImage($data['image'] ?? "")
                     ->setArticle($articleText)
-                    ->setPage($data['page'])
+                    ->setKeywords($data['keywords'])
                     ->setHidden($data['hidden']);
                 $this->orm->save($article);
                 return $article->id();
@@ -91,7 +89,7 @@ class ArticlesService extends ServiceBase {
                     ->setTitle($data['title'] ?? "")
                     ->setDescription($data['description'] ?? "")
                     ->setImage($data['image'] ?? "")
-                    ->setPage($data['page'] ?? "")
+                    ->setKeywords($data['keywords'] ?? "")
                     ->setHidden($data['hidden'] ?? "")
                     ->setArticle($articleText);
                 $this->orm->save($article);

@@ -7,21 +7,13 @@
         <input type="hidden" name="referer" value="{$referer}">
         <div class="row mb-3">
             <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">Title (Max. 64 Zeichen)</label>
-                <input type="text" name="title" class="form-control" id="exampleFormControlInput1" maxlength="64"
+                <label for="title" class="form-label">Title (max. 64 chars)</label>
+                <input type="text" name="title" class="form-control" id="title" maxlength="64"
                     value="{$articleTitle}" required>
             </div>
             <div class="col-2">
-                <label for="exampleFormControlInput1" class="form-label">Page</label>
-                <select name="page" class="form-select" aria-label="Default select example" required>
-                    <option value="">Select Page</option>
-                    <option value="/Blog" {$articlePage=='/Blog' ? 'selected' : '' }>Blog</option>
-                    <option value="/Test" {$articlePage=='/Test' ? 'selected' : '' }>Test</option>
-                </select>
-            </div>
-            <div class="col-2">
-                <label for="exampleFormControlInput1" class="form-label">Visibility</label>
-                <select name="hidden" class="form-select" aria-label="Default select example" required>
+                <label for="hidden" class="form-label">Visibility</label>
+                <select name="hidden" id="hidden" class="form-select" aria-label="Default select example" required>
                     <option value="">Select Visibility</option>
                     <option value="1" {$articleHidden ? 'selected' : '' }>Hidden</option>
                     <option value="0" {!$articleHidden ? 'selected' : '' }>Visible</option>
@@ -29,12 +21,12 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Description (Max. 255 Zeichen)</label>
-            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="255"
+            <label for="description" class="form-label">Description (max. 255 chars)</label>
+            <textarea name="description" class="form-control" id="description" rows="2" maxlength="255"
                 required>{$articleDescription}</textarea>
         </div>
-        <label for="exampleFormControlTextarea1" class="form-label">Article</label>
         <div class="mb-3">
+            <label for="tiny-mce" class="form-label">Article</label>
             <textarea id="tiny-mce" name="articleText">{$articleText}</textarea>
             <script
                 src="https://cdn.tiny.cloud/1/{$tinymceApiKey}/tinymce/6/tinymce.min.js"
@@ -139,6 +131,11 @@
                 });
 
             </script>
+        </div>
+        <div class="mb-3">
+            <label for="keywords" class="form-label">Keywords (max. 255 chars)</label>
+            <textarea name="keywords" id="keywords" class="form-control" rows="2" 
+                maxlength="255">{$articleKeywords}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save Article</button>
         <a href="{$referer}" class="btn btn-secondary">Cancel</a>

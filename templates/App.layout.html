@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 {include 'Menu.partial.html'}
                 <div>
-                    <a n:if="$isAdmin" href="/Editor?page={$currentPath}" 
+                    <a n:if="$isAdmin" href="/Editor" 
                         class="btn btn-outline-primary me-3"><i class="bi bi-file-earmark-richtext"></i> Create New Article</a>
                     <a n:if="isset($isLoggedIn) && !$isLoggedIn" href="/Authenticate"
                         class="btn btn-outline-primary me-4"><i class="bi bi-lock-fill"></i></a>

@@ -21,7 +21,7 @@ class BlogController extends AppController {
         $limit = 6;
         $totalCount = 0;
 
-        $articles = $this->articles->readAll('/Blog', $offset, $limit, $totalCount);
+        $articles = $this->articles->readAll($offset, $limit, $totalCount);
         
         $count = count($articles);
 

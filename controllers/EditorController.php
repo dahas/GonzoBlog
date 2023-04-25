@@ -35,7 +35,7 @@ class EditorController extends AppController {
             'articleTitle' => $this->data['title'],
             'articleDescription' => $this->data['description'],
             'articleText' => $this->data['articleText'],
-            'articlePage' => $this->data['page'],
+            'articleKeywords' => $this->data['keywords'],
             'articleHidden' => $this->data['hidden']
         ]);
 
@@ -68,7 +68,7 @@ class EditorController extends AppController {
                 'articleTitle' => $this->data['title'],
                 'articleDescription' => $this->data['description'],
                 'articleText' => $this->data['articleText'],
-                'articlePage' => $this->data['page'],
+                'articleKeywords' => $this->data['keywords'],
                 'articleHidden' => $this->data['hidden']
             ]);
         } else {
@@ -82,7 +82,7 @@ class EditorController extends AppController {
                 'articleTitle' => $article->getTitle(),
                 'articleDescription' => $article->getDescription(),
                 'articleText' => $article->getArticle(),
-                'articlePage' => $article->getPage(),
+                'articleKeywords' => $article->getKeywords(),
                 'articleHidden' => $article->getHidden()
             ]);
         }

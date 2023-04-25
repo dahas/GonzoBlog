@@ -31,9 +31,9 @@ class AppController extends ControllerBase {
         $this->isAdmin = $this->auth->isAdmin();
 
         $this->template->assign([
-            "title" => "Gonzo - A Blog Framework",
-            "keywords" => "Blog, Framework",
-            "description" => "Gonzo - A Blog Framework",
+            "title" => "Gonzo - A Static Blog",
+            "keywords" => "Blog, Open Source",
+            "description" => "Gonzo - A Static Blog",
             "e2eTestMode" => $_ENV['MODE'] === 'test',
             "nav" => $this->menu->getItems(),
             "user" => $this->auth->isLoggedIn() ? $_SESSION['user'] : [],

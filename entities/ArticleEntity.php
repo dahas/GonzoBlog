@@ -61,14 +61,14 @@ class ArticleEntity extends Entity implements IMappableEntity {
         return $this;
     }
 
-    public function getPage(): string
+    public function getKeywords(): string
     {
-        return $this->orm()->getColumn('page');
+        return $this->orm()->getColumn('keywords');
     }
 
-    public function setPage(string $page): self
+    public function setKeywords(string $keywords): self
     {
-        $this->orm()->setColumn('page', $page);
+        $this->orm()->setColumn('keywords', $keywords);
         return $this;
     }
 

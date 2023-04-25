@@ -32,7 +32,7 @@
             <h3>List of Articles</h3>
 
             <div class="list-group overflow-auto" n:inner-foreach="$articles as $item">
-                <a n:if="$isAdmin || !$item->getHidden()" href="{$item->getPage()}/Article/{$item->id()}"
+                <a n:if="$isAdmin || !$item->getHidden()" href="/Blog/Article/{$item->id()}"
                     class="list-group-item list-group-item-action {$currentArticle == $item->id() ? 'active' : ''}"
                     aria-current="true">
                     <div class="d-flex w-100 justify-content-between">
