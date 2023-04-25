@@ -3,7 +3,7 @@
 <img src="https://img.shields.io/badge/PHP-8.1.2-orange" /> <img src="https://img.shields.io/badge/Latte-3.x-green" /> <img src="https://img.shields.io/badge/Opis ORM-1.x-yellow" /> <img src="https://img.shields.io/badge/PHPUnit-10.x-blue" />
 
 - *Gonzo Blog* is a mixture of static pages and dynamic content. 
-- Blog articles can be created and edited directly without leaving the page.
+- Blog articles can be created and edited directly in the browser without leaving the page.
 - *Gonzo Blog* requires some good knowledge in web development.
 - *Gonzo Blog* is Open Source.
 
