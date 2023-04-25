@@ -46,14 +46,14 @@ class CommentsService extends ServiceBase {
             ->find($id);
     }
 
-    public function create(array $data): int
+    public function create(string $page, array $data): int
     {
         if ($this->auth->isLoggedIn()) {
             $comment = $this->orm->create(CommentEntity::class)
                 ->setName($_SESSION['user']['name'])
                 ->setEmail($_SESSION['user']['email'])
                 ->setArticleId((int) $data['articleId'])
-                ->setPage($data['page'])
+                ->setPage($page)
                 ->setComment($data['comment']);
             $this->orm->save($comment);
             return $comment->id();

@@ -40,12 +40,11 @@ class CommentsController extends AppController {
         parent::__construct($request, $response);
 
         $this->template->assign([
-            'page' => '/' . $this->page,
             "expanded" => false,
         ]);
     }
 
-    public function renderComments(string $page, int $articleId = 0): void
+    public function renderComments(int $articleId = 0): void
     {
         $text = '';
         if ($this->session->issetTemp()) {
@@ -55,7 +54,7 @@ class CommentsController extends AppController {
         }
 
         $this->template->assign([
-            "comments" => $this->comments->readAll($page, $articleId),
+            "comments" => $this->comments->readAll($this->page, $articleId),
             'route' => $this->route,
             "expanded" => !empty($text) || $this->data['expanded'],
             "text" => $text
@@ -180,7 +179,7 @@ class CommentsController extends AppController {
 
     public function createComment(): void
     {
-        $id = $this->comments->create($this->data);
+        $id = $this->comments->create($this->page, $this->data);
         if ($id < 0) { // Not logged in!
             $this->session->setTempData($this->route, $this->data);
             $this->auth->login();

@@ -23,7 +23,7 @@ class TestController extends CommentsController {
     #[Route(path: '/Test', method: 'get')]
     public function main(): void
     {
-        parent::renderComments("/Test");
+        parent::renderComments();
     }
 
     #[Route(path: '/Test/Comments/create', method: 'post')]

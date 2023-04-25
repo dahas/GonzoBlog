@@ -55,7 +55,7 @@ class ArticleController extends CommentsController {
     #[Route(path: '/Blog/Article/{articleId}', method: 'get')]
     public function read(): void
     {
-        parent::renderComments("/Blog", (int) $this->data['articleId']);
+        parent::renderComments((int) $this->data['articleId']);
     }
 
     #[Route(path: '/Blog/Article/{articleId}/Comments/create', method: 'post')]
