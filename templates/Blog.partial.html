@@ -25,7 +25,8 @@
                                     class="bi bi-pencil-fill"></i></a>
                             <a href="/Editor/hide/{$item->id()}" style="margin-right: 0.25rem"><i
                                     class="bi {$item->getHidden() ? 'text-warning bi-eye-fill' : 'bi-eye-slash-fill'}"></i></a>
-                            <a href="/Editor/delete/{$item->id()}"><i class="bi bi-trash3-fill"></i></a>
+                            <a href="/Editor/delete/{$item->id()}" data-bs-toggle="modal" 
+                                data-bs-target="#confirmDelete" data-ctype="article"><i class="bi bi-trash3-fill"></i></a>
                         </small>
                     </div>
                     <h5 class="card-title">{$item->getTitle()}</h5>
