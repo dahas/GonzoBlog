@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS `blog_articles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `keywords` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `image` longblob,
   `article` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `page` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `hidden` int unsigned NOT NULL DEFAULT '0',
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
