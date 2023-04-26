@@ -42,14 +42,14 @@ class ArticleController extends CommentsController {
         }
     }
 
-    public static function extractPreviewImage($articleHtml): string 
+    public static function extractPreviewImage($key, $articleHtml): string 
     {
         $doc = new \DOMDocument();
         @$doc->loadHTML($articleHtml);
 
         $tags = $doc->getElementsByTagName('img');
 
-        return $tags && $tags->item(0) ? $tags->item(0)->getAttribute('src') : "/assets/imgs/placeholder.jpg";
+        return $tags && $tags->item(0) ? $tags->item(0)->getAttribute('src') : "/assets/imgs/blog/random{$key}.jpg";
     }
 
     #[Route(path: '/Blog/Article/{articleId}', method: 'get')]
