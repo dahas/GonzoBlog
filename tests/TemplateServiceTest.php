@@ -2,8 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Gonzo\Service\TemplateService;
-use Gonzo\Sources\Response;
-use Gonzo\Sources\Request;
+use Gonzo\Sources\{Request, Response, Session};
 
 !defined('ROOT') && define('ROOT', dirname(__DIR__, 1));
 
@@ -14,6 +13,7 @@ class TemplateServiceTest extends TestCase {
     
     private Request $request;
     private Response $response;
+    private Session $session;
     private TemplateService $template;
 
     protected function setUp(): void
@@ -22,13 +22,18 @@ class TemplateServiceTest extends TestCase {
 
         $this->request = new Request();
         $this->response = new Response();
-        $this->template = new TemplateService(__DIR__ . '/files', __DIR__ . '/cache/templates');
+        $this->session = new Session();
+
+        $this->template = new TemplateService($this->request, $this->response, $this->session);
+        $this->template->setTemplateDir(__DIR__ . '/files');
+        $this->template->setCacheDir(__DIR__ . '/cache/templates');
     }
 
     protected function tearDown(): void
     {
         unset($this->request);
         unset($this->response);
+        unset($this->session);
         unset($this->template);
 
         // Clear cache folder:
