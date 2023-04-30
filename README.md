@@ -85,30 +85,21 @@ $ php -S localhost:2400 -t public
 
 With a Controller you can extend Gonzo with new Pages and new Functionality.
 
-Create a file `YourController.php` in the `controllers` directory:
+Create a file `MyController.php` in the `controllers` directory:
 
 ````php
-// controllers/YourController.php
+// controllers/MyController.php
 
 <?php declare(strict_types=1);
 
 namespace Gonzo\Controller;
 
 use Gonzo\Sources\attributes\Route;
-use Gonzo\Sources\{ControllerBase, Request, Response};
+use Gonzo\Sources\ControllerBase;
 
-class YourController extends ControllerBase {
+class MyController extends ControllerBase {
 
-    private array $data;
-
-    public function __construct(
-        protected Request $request, 
-        protected Response $response)
-    {
-        $this->data = $this->request->getData();
-    }
-
-    #[Route(path: '/YourPath/{name}', method: 'get')]
+    #[Route(path: '/SayMyName/{name}', method: 'get')]
     public function main(): void
     {
         $this->response->write("Hello " . $this->data['name']);
@@ -118,79 +109,57 @@ class YourController extends ControllerBase {
 }
 ````
 Check it out in the web browser (provide your name):  
-http://localhost:2400/YourPath/<YourName\>
+http://localhost:2400/SayMyName/<YourName\>
 
 ### Render HTML
 
-Now, if you want to render a beautiful HTML template, you need a Template Engine. The Latte Engine is available as a Service. 
-
-Here is how you use it:
-
-Create an HTML file named `Your.layout.html` with the following content in the `templates` folder:  
+Create an HTML file named `My.partial.html` with the following content in the `templates` folder:  
 
 ````html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{$title}</title>
-</head>
-<body style="font-family: 'Courier New', Courier, monospace; margin: 60px auto; text-align: center">
-    <div style="background-color: rgb(196, 250, 255); padding: 20px 0;">
-        <h1>{$header}</h1>
-        <p>{$message}</p>
-    </div>
-</body>
-</html>
+{layout 'App.layout.html'}
+
+{block content}
+<div style="background-color: rgb(196, 250, 255); padding: 20px 0; font-family: 'Courier New', Courier, monospace; margin: 0px auto; text-align: center">
+    <h1>{$header}</h1>
+    <p>{$message}</p>
+</div>
+{/block}
 ````
-Inject the Template Engine as shown below:  
+Inject the Template Service as shown below:  
 
 ````php
-// controllers/YourController.php
+// controllers/MyController.php
 
 <?php declare(strict_types=1);
 
 namespace Gonzo\Controller;
 
-use Gonzo\Service\TemplateEngine;
+use Gonzo\Service\TemplateService;
 use Gonzo\Sources\attributes\{Inject, Route};
-use Gonzo\Sources\{ControllerBase, Request, Response};
+use Gonzo\Sources\ControllerBase;
 
-class YourController extends ControllerBase {
+class MyController extends ControllerBase {
 
-    #[Inject(TemplateEngine::class)]
+    #[Inject(TemplateService::class)]
     protected $template;
 
-    protected array $data;
-
-    public function __construct(
-        protected Request $request, 
-        protected Response $response)
-    {
-        $this->data = $this->request->getData();
-    }
-
-    #[Route(path: '/YourPath/{name}', method: 'get')]
+    #[Route(path: '/SayMyName/{name}', method: 'get')]
     public function main(): void
     {
-        $this->injectServices();
-
         $this->template->assign([
-            'title' => 'Your Controller',
+            'title' => 'My Controller',
             'header' => 'Gonzo is cool!',
             'message' => 'But ' . $this->data['name'] . ' is way cooler :p'
         ]);
-        $this->template->parse('Your.layout.html');
-        $this->template->render($this->request, $this->response);
+        $this->template->parse('My.partial.html');
+        $this->template->render();
     }
     
     //...
 }
 ````
 Check it out again:  
-http://localhost:2400/YourPath/<YourName\>
+http://localhost:2400/SayMyName/<YourName\>
 
 ## Extend the Menu
 
@@ -199,93 +168,112 @@ Finally, you may want your new page to appear in the navigation bar. Therefore o
 ````
 // ...
 {
-    "path": "/YourPath/<YourName\>",
-    "controller": "YourController",
-    "title": "Welcome Message",
+    "path": "/SayMyName/<YourName\>",
+    "controller": "MyController",
+    "title": "Say My Name",
     "enabled": true
 },
 // ...
 ````
+To see the Menu you have to do one last little change in your Controller: 
+````php
+class MyController extends AppController {
+    
+    //...
+}
+````
+The `AppController` hosts all the features and services that you need throughout the whole app (like Navigation Bar, Footer, etc.).
 
 ## Extend Gonzo with Services
-In addition to installing libraries with Composer, you can create your own Services. To do this, you simply create a Class in the `services` directory and inject it via Attributes in the Classes where you need the Service. 
 
-Below is a template of a Service class. The constructor with an array of options is mandatory, although using options is optional.
+A Service is an Object that provides additional features and/or data. Most of the time you will retrieve data from a database table within a Service.  
+
+To create a Service you simply create a Class in the `services` directory and inject it via an Attribute in the Controller where you need the Service. Name yours `MyService.php`.
 
 ````php
-// services/YourService.php
+// services/MyService.php
 
 <?php declare(strict_types=1);
 
 namespace Gonzo\Service;
 
-class YourService {
+use Gonzo\Sources\{Request, Response, Session};
 
-    public function __construct(private array|null $options = [])
+class MyService {
+
+    /**
+     * The constructor is optional. Use it, when you require access 
+     * to the Request, Response or Session instances.
+     */
+    public function __construct(
+        protected Request $request, 
+        protected Response $response, 
+        protected Session $session
+    ) {}
+    //...
+
+    public function myMethod(string $name): string
     {
-
+        return "Hey $name! How can I serve you?";
     }
-    ...
 }
 ````
-Here is how you inject Services in another Class. Note how the constructor triggers the parent constructor:
+Now inject the Service in your Controller `MyController.php`:
 ````php
-// controllers/AnyController.php
+// controllers/MyController.php
+
+use Gonzo\Service\{TemplateService, MyService};
+
+class MyController extends AppController {
+
+    #[Inject(MyService::class)]
+    protected $myService;
+
+    // ...
+}
+````
+To use the Service assign `$this->myService->myMethod(<name>)` to the 'message' marker of the template:
+````php
+#[Route(path: '/SayMyName/{name}', method: 'get')]
+public function main(): void
+{
+    $this->template->assign([
+        'title' => 'Your Controller',
+        'header' => 'Gonzo is cool!',
+        'message' => $this->myService->myMethod($this->data['name'])
+    ]);
+    $this->template->parse('My.partial.html');
+    $this->template->render();
+}
+````
+And again: http://localhost:2400/SayMyName/<YourName\>. Notice, how the message has changed.
+
+It is also possible to use **Services in other Services**. In this case the Constructor is mandatory and the Service must inherit from Class `ServiceBase`.
+
+````php
+// services/MyService.php
 
 <?php declare(strict_types=1);
 
-namespace Gonzo\Controller;
+namespace Gonzo\Service;
 
-use Gonzo\Sources\ControllerBase;
-use Gonzo\Service\{YourService, AnotherService};
+use Gonzo\Sources\{ServiceBase, Request, Response, Session};
 
-class AnyController extends ControllerBase {
+class MyService extends ServiceBase {
 
-    /**
-     * Service without Options:
-     */
-    #[Inject(YourService::class)]
-    protected $yourService;
-
-    /**
-     * Service with Options:
-     */
-    #[Inject(AnotherService::class, [
-        "opt1" => "Option 1", 
-        "opt2" => "Option 2"
-    ])]
+    #[Inject(AnotheryService::class)]
     protected $anotherService;
-    
-    public function __construct()
-    {
-        parent::__construct();
+
+    public function __construct(
+        protected Request $request, 
+        protected Response $response, 
+        protected Session $session
+    ) {
+        // Parent Constructor must be triggered!
+        parent::__construct($this->request, $this->response, $this->session);
     }
 
-    // ...
-}
-````
-It is also possible to use Services in a Service. Therefore the Service must inherit from the ServiceBase. Like so:
-````php
-// services/YourService.php
-
-<?php declare(strict_types=1);
-
-namespace Gonzo\Service;
-
-use Gonzo\Sources\ServiceBase;
-use Gonzo\Service\AnyService;
-
-class YourService extends ServiceBase {
-
-    #[Inject(AnyService::class)]
-    protected $anyService;
-
-    public function __construct(private array|null $options = [])
-    {
-        parent::__construct();
-    }
-    
-    // ...
+    //...
 }
 ````
 
@@ -326,12 +314,13 @@ Creates and renders HTML from Markdown.
 ## MenuService
 ### *Dependencies*:
 * Templates: `Menu.partial.html`
+* Configuration: `menu.json`
 ### *Description*:  
-Creates and renders the menu inside the navigation bar according to the specification in `menu.json`.
+Creates and renders the menu inside the navigation bar.
 
 ## PurifyService
 ### *Description*:  
-Uses HTMLPurifier to remove malicious code.
+Removes malicious code from content.
 
 ## TemplateService
 ### *Description*:  
