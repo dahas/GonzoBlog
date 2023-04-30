@@ -1,31 +1,14 @@
 <?php declare(strict_types=1);
 
 namespace Gonzo\Sources;
+use Gonzo\Sources\traits\Injection;
 
-use ReflectionClass;
+class ServiceBase  {
 
-class ServiceBase {
+    use Injection;
 
-    public function __construct()
+    public function __construct(protected Request $request, protected Response $response, protected Session $session)
     {
-        /**
-         * Use of a ReflectionClass to inject Services assigned to Attributes.
-         */
-        $rc = new ReflectionClass(get_class($this));
-        $properties = $rc->getProperties();
-        foreach ($properties as $property) {
-            $pName = $property->name;
-            $attributes = $property->getAttributes();
-            foreach ($attributes as $attribute) {
-                $instance = $attribute->newInstance();
-                $service = $instance->service;
-                $options = $instance->getOptions();
-                if ($options) {
-                    $this->$pName = new $service(options: $options);
-                } else {
-                    $this->$pName = new $service();
-                }
-            }
-        }
+        $this->triggerServiceInjection($this->request, $this->response, $this->session);
     }
 }

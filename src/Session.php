@@ -8,7 +8,7 @@ class Session implements SessionInterface {
 
     public function get(string $name): mixed
     {
-        return $_SESSION[$name];
+        return $_SESSION[$name] ?? null;
     }
 
     public function set(string $name, mixed $value): void

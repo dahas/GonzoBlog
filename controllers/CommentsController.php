@@ -49,7 +49,7 @@ class CommentsController extends AppController {
         $this->template->assign([
             "comments" => $this->comments->readAll($this->route),
             'route' => $this->route,
-            "expanded" => !empty($text) || $this->data['expanded'],
+            "expanded" => !empty($text) || ($this->data['expanded'] ?? false),
             "text" => $text
         ]);
         $this->template->parse($this->templateFile);

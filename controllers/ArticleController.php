@@ -8,7 +8,7 @@ use Gonzo\Sources\{Request, Response};
 
 class ArticleController extends CommentsController {
 
-    #[Inject(ArticlesService::class, ['hello' => "world"])]
+    #[Inject(ArticlesService::class)]
     protected $articles;
 
     protected string $route = '/Blog/Article/%d';

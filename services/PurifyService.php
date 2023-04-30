@@ -9,12 +9,10 @@ class PurifyService {
 
     private HTMLPurifier $purifier;
 
-    public function __construct(private array|null $options = [])
+    public function __construct()
     {
         $config = HTMLPurifier_Config::createDefault();
-        foreach($options as $option => $value) {
-            $config->set($option, $value);
-        }
+        $config->set('HTML.ForbiddenElements', ['img', 'iframe', 'a', 'script']);
         $this->purifier = new HTMLPurifier($config);
     }
 
