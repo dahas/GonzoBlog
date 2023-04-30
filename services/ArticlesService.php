@@ -2,6 +2,7 @@
 
 namespace Gonzo\Service;
 
+use Gonzo\Sources\{Request, Response, Session};
 use Gonzo\Entities\ArticleEntity;
 use Gonzo\Service\{DbalService, AuthenticationService, PurifyService};
 use Gonzo\Sources\attributes\Inject;
@@ -23,10 +24,13 @@ class ArticlesService extends ServiceBase {
 
     private $orm;
 
-    public function __construct(private array|null $options = [])
-    {
-        parent::__construct();
-
+    public function __construct(
+        protected Request $request, 
+        protected Response $response,
+        protected Session $session
+    ) {
+        parent::__construct($this->request, $this->response, $this->session);
+        
         $this->orm = $this->dbal->getEntityManager();
     }
 

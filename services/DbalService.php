@@ -11,7 +11,7 @@ class DbalService {
 
     private Connection $con;
 
-    public function __construct(private array|null $options = [])
+    public function __construct()
     {
         $this->con = new Connection(
             $_ENV['DB_DSN'],
@@ -29,16 +29,16 @@ class DbalService {
 
     public function getConnection(): Connection
     {
-        return $this->con; 
+        return $this->con;
     }
 
     public function getDatabase(): Database
     {
-        return new Database($this->con); 
+        return new Database($this->con);
     }
 
     public function getEntityManager(): EntityManager
     {
-        return new EntityManager($this->con); 
+        return new EntityManager($this->con);
     }
 }

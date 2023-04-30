@@ -2,6 +2,7 @@
 
 namespace Gonzo\Service;
 
+use Gonzo\Sources\{Request, Response, Session};
 use Gonzo\Entities\CommentEntity;
 use Gonzo\Entities\ReplyEntity;
 use Gonzo\Service\DbalService;
@@ -20,9 +21,13 @@ class CommentsService extends ServiceBase {
     private string $tmplFile = 'Comments.partial.html';
     private $orm;
 
-    public function __construct(private array|null $options = [])
-    {
-        parent::__construct();
+    public function __construct(
+        protected Request $request, 
+        protected Response $response, 
+        protected Session $session
+    ) {
+        parent::__construct($this->request, $this->response, $this->session);
+
         $this->orm = $this->dbal->getEntityManager();
     }
 
