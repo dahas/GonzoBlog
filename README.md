@@ -18,20 +18,21 @@
 ## Installation
 ````
 $ cd /var/www
-$ sudo git clone https://github.com/dahas/GonzoBlog.git
+$ sudo git clone https://github.com/dahas/GonzoBlog.git <your_folder_name>
+$ cd <your_folder_name>
 $ composer install
 ````
 
 ## Set Permissions
 ````
 $ sudo adduser $USER www-data
-$ sudo chown -R $USER:www-data /var/www/GonzoBlog 
-$ sudo chmod -R 775 /var/www/GonzoBlog
+$ sudo chown -R $USER:www-data /var/www/<your_folder_name> 
+$ sudo chmod -R 775 /var/www/<your_folder_name>
 ````
 
 ## Set Webserver Root
 In your Webserver configuration file set the following path as **root**:  
-`/var/www/GonzoBlog/public`
+`/var/www/<your_folder_name>/public`
 
 # Setting things up
 
