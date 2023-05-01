@@ -74,9 +74,15 @@ As the administrator of the Blog you are able to write and edit articles with a 
 
 ## Run locally
 
-Launch the web server:
+Launch the build-in web server:
 ````
 $ php -S localhost:2400 -t public
+````
+Using Apache or Nginx may require permissions:
+````
+$ sudo adduser $USER www-data
+$ sudo chown -R $USER:www-data /var/www/<project_folder> 
+$ sudo chmod -R 775 /var/www/<project_folder>
 ````
 
 # How to
