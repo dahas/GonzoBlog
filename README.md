@@ -17,9 +17,21 @@
 
 ## Installation
 ````
-$ git clone https://github.com/dahas/GonzoBlog.git .
+$ cd /var/www
+$ sudo git clone https://github.com/dahas/GonzoBlog.git
 $ composer install
 ````
+
+## Set Permissions
+````
+$ sudo adduser $USER www-data
+$ sudo chown -R $USER:www-data /var/www/GonzoBlog 
+$ sudo chmod -R 775 /var/www/GonzoBlog
+````
+
+## Set Webserver Root
+In your Webserver configuration file set the following path as **root**:  
+`/var/www/GonzoBlog/public`
 
 # Setting things up
 
@@ -72,18 +84,13 @@ As the administrator of the Blog you are able to write and edit articles with a 
 
 # Run Gonzo Blog
 
-## Run locally
-
-Launch the build-in web server:
+## Optional start build-in web server:
 ````
 $ php -S localhost:2400 -t public
 ````
-Using Apache or Nginx may require permissions:
-````
-$ sudo adduser $USER www-data
-$ sudo chown -R $USER:www-data /var/www/<project_folder> 
-$ sudo chmod -R 775 /var/www/<project_folder>
-````
+
+In the address bar of the browser enter:  
+`http://localhost:<port>`
 
 # How to
 
