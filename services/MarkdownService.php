@@ -4,9 +4,9 @@ namespace Gonzo\Service;
 
 use Gonzo\Sources\attributes\Inject;
 use Gonzo\Service\PurifyService;
-use \Parsedown;
 use Gonzo\Sources\{Request, Response, Session};
 use Gonzo\Sources\ServiceBase;
+use \Parsedown;
 
 class MarkdownService extends ServiceBase {
 
