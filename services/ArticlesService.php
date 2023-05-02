@@ -16,10 +16,7 @@ class ArticlesService extends ServiceBase {
     #[Inject(AuthenticationService::class)]
     protected $auth;
 
-    #[Inject(PurifyService::class, [
-        'HTML.Trusted' => true,
-        'Filter.YouTube' => true,
-    ])]
+    #[Inject(PurifyService::class)]
     protected $purifier;
 
     private $orm;
