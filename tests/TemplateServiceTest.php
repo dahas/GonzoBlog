@@ -18,6 +18,8 @@ class TemplateServiceTest extends TestCase {
 
     protected function setUp(): void
     {
+        $_ENV['MODE'] = 'test';
+
         $_ENV['LAYOUT_TEMPLATE_NAME'] = "Layout.html";
 
         $this->request = new Request();

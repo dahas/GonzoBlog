@@ -32,7 +32,8 @@ class AuthenticationService {
             ]
         ];
 
-        $this->GoogleOAuthAdapter = new Google($config);
+        if ($_ENV['MODE'] !== 'test')
+            $this->GoogleOAuthAdapter = new Google($config);
     }
 
     public function login(): void
